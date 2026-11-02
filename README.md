@@ -1,4 +1,4 @@
-# E-commerce-Growth-Conversion-Optimization-Analysis
+# E-commerce Growth and Conversion Optimization Analysis
 
 ## 1. Project Background
 
@@ -28,7 +28,7 @@ This analysis aims to answer the following questions:
 
 The analysis uses e-commerce data covering website traffic, product interactions, orders, product details, refunds, marketing attribution, and purchasing behavior.
 
-The SQL workflow references the following source tables:
+The SQL workflow uses the following source tables:
 
 - `products`: product identifiers, names, and launch dates.
 - `order_items`: individual products purchased, item prices, costs, and primary-item indicators.
@@ -37,7 +37,7 @@ The SQL workflow references the following source tables:
 - `website_sessions`: session dates, customer identifiers, marketing attribution, device categories, and referring URLs.
 - `website_pageviews`: website pageviews, session identifiers, and page URLs.
 
-The exact source-data provenance and original database schema documentation were not included in the supplied materials.
+Documentation of the dataset's original source and database schema is not available. The table descriptions above are based on the table and column structure used in the SQL workflow.
 
 ### 2.2 Data Cleaning & Preparation
 
@@ -59,21 +59,21 @@ The SQL workflow includes the following steps:
 
 The main derived tables are summarized below.
 
-| Derived Table | Purpose |
-|---|---|
-| `products_clean` | Standardized product identifiers, names, and launch dates. |
-| `order_items_clean` | Prepared individual order-item records, prices, costs, and primary-item indicators. |
-| `orders_clean` | Prepared order-level transaction records. |
-| `order_item_refunds_clean` | Standardized refund records and refund amounts. |
-| `website_pageviews_clean` | Classified website pageviews into funnel stages. |
-| `website_sessions_clean` | Cleaned session attributes and marketing attribution. |
-| `product_detail` | Integrated order items with products, orders, sessions, and refunds. |
-| `session_detail` | Combined session and order information, including net revenue and profit. |
-| `funnel_detail` | Integrated pageviews, session attributes, and order-level metrics. |
-| `product_funnel` | Prepared product-level funnel stages and purchase outcomes. |
-| `landing_product` | Filtered landing-page activity and associated transaction information for the selected period. |
+| Derived Table              | Purpose                                                                                        |
+|----------------------------|------------------------------------------------------------------------------------------------|
+| `products_clean`           | Standardized product identifiers, names, and launch dates.                                     |
+| `order_items_clean`        | Prepared individual order-item records, prices, costs, and primary-item indicators.            |
+| `orders_clean`             | Prepared order-level transaction records.                                                      |
+| `order_item_refunds_clean` | Standardized refund records and refund amounts.                                                |
+| `website_pageviews_clean`  | Classified website pageviews into funnel stages.                                               |
+| `website_sessions_clean`   | Cleaned session attributes and marketing attribution.                                          |
+| `product_detail`           | Integrated order items with products, orders, sessions, and refunds.                           |
+| `session_detail`           | Combined session and order information, including net revenue and profit.                      |
+| `funnel_detail`            | Integrated pageviews, session attributes, and order-level metrics.                             |
+| `product_funnel`           | Prepared product-level funnel stages and purchase outcomes.                                    |
+| `landing_product`          | Filtered landing-page activity and associated transaction information for the selected period. |
 
-The duplicate checks identify potential data-quality issues, but the supplied SQL does not explicitly remove duplicates or demonstrate that every source table passed validation. These checks should therefore be interpreted as validation steps rather than proof that all duplicates were eliminated.
+The duplicate checks flag potential data-quality issues, but the SQL workflow does not explicitly remove duplicates or document the outcome of every check. These checks should therefore be interpreted as validation steps rather than proof that all duplicates were eliminated.
 
 **Python — Data Formatting and Feature Engineering**
 
@@ -92,7 +92,7 @@ The preparation steps include:
 
 The financial-year transformation is defined as:
 
-```python
+```
 financial_year = date.year - (date.month < 3)
 ```
 
@@ -155,11 +155,11 @@ The investigative process moves from overall business performance to product-lev
 ## 3. Executive Summary
 
 - **Revenue growth:** Net revenue increased from $164,627.48 in FY2012 to $1,162,275.97 in FY2014, supported by higher traffic, improving conversion rates, and increasing net AOV.
-- **Product concentration:** The Original Mr. Fuzzy accounts for approximately 45.23% of total orders, making it a major business driver and a potential source of product concentration risk.
+- **Product concentration:** The Original Mr. Fuzzy accounts for approximately 62.01% of total net revenue, making it a major business driver and a potential source of product concentration risk.
 - **Product and bundle opportunities:** The Hudson River Mini Bear has attractive observed margin and refund characteristics. The Forever Love Bear–Hudson River Mini Bear combination offers a promising balance of margin and refund rate but has relatively low order volume.
 - **Funnel bottleneck:** Product view to add-to-cart is the largest bottleneck, with approximately 54%–55% drop-off. The Original Mr. Fuzzy and The Birthday Sugar Panda consistently record below-average add-to-cart conversion.
-- **Revenue recovery potential:** A modeled increase in add-to-cart conversion to 55% for these two products estimates a six-month net revenue recovery of $123,273.11, including secondary-product contributions.
-- **Campaign, landing-page, and device performance:** Desktop conversion rates range from 9.85% to 10.92%, compared with 3.03%–3.53% on mobile across the reported campaign combinations. The findings support investigating mobile conversion, particularly on `/home`, and testing landing pages under comparable conditions.
+- **Revenue recovery potential:** A modeled increase in add-to-cart conversion to 55% for these two products estimates a six-month net revenue recovery of $123,273.11, with secondary-product revenue held constant.
+- **Campaign, landing-page, and device performance:** Desktop conversion rates range from 10.17% to 10.92%, compared with 3.03%–3.53% on mobile across the reported campaign combinations. The findings support investigating mobile conversion, particularly on `/home`, and testing landing pages under comparable conditions.
 - **Billing-page improvement:** The A/B test indicates a statistically significant increase in billing-to-purchase conversion for `/billing-2` compared with `/billing`.
 - **Seasonal planning:** Revenue tends to accelerate around September and peak around December/January, suggesting a potential year-end demand window.
 
@@ -183,18 +183,18 @@ The analysis followed a top-down investigative process:
 
 Net revenue increased consistently across the three financial years.
 
-| Metric | FY2012 | FY2013 | FY2014 |
-|---|---:|---:|---:|
-| Net Revenue | $164,627.48 | $450,009.99 | $1,162,275.97 |
-| Net Revenue Growth | — | 173.35% | 158.28% |
-| Gross Orders | 3,474 | 8,563 | 19,022 |
-| Website Traffic | 76,039 | 130,322 | 251,427 |
-| Conversion Rate | 4.57% | 6.57% | 7.57% |
-| Net AOV | $50.62 | $54.74 | $63.01 |
+| Metric             | FY2012      | FY2013      | FY2014        |
+|--------------------|------------:|------------:|--------------:|
+| Net Revenue        | $164,627.48 | $450,009.99 | $1,162,275.97 |
+| Net Revenue Growth | —           | 173.35%     | 158.28%       |
+| Gross Orders       | 3,474       | 8,563       | 19,022        |
+| Website Traffic    | 76,039      | 130,322     | 251,427       |
+| Conversion Rate    | 4.57%       | 6.57%       | 7.57%         |
+| Net AOV            | $50.62      | $54.74      | $63.01        |
 
 Net revenue grew by 173.35% in FY2013 and a further 158.28% in FY2014. Over the same period, website traffic increased from 76,039 to 251,427, while conversion rate improved from 4.57% to 7.57%. Net AOV also rose from $50.62 to $63.01.
 
-Gross orders increased from 3,474 to 8,563 in FY2013, representing approximately 146.43% growth, and reached 19,022 in FY2014, representing approximately 122.14% growth.
+Gross orders increased from 3,474 to 8,563 in FY2013, representing approximately 146.49% growth, and reached 19,022 in FY2014, representing approximately 122.14% growth.
 
 Traffic growth indicates that the business expanded its reach, while the improvement in conversion rate suggests that a larger proportion of visitors completed purchases. Increasing AOV further strengthened revenue performance.
 
@@ -214,15 +214,15 @@ However, the available trend alone does not establish a stable seasonal pattern.
 
 ### 4.2 Product Performance and Concentration Risk
 
-The Original Mr. Fuzzy, priced at $49.99, contributes approximately 45.23% of total orders across single-item and double-item purchases. It also generates the highest daily revenue, at $1,050.48, and the highest daily order volume, at 21.01 orders.
+The Original Mr. Fuzzy, priced at $49.99, contributes approximately 62.01% of total net revenue across single-item and double-item purchases. It also generates the highest daily revenue, at $1,050.48, and the highest daily order volume, at 21.01 orders.
 
-Its leading position is consistent with its earlier launch and substantially greater traffic than other products. The supplied product analysis records a conversion rate of 14.68%.
+Its leading position is consistent with its earlier launch and substantially greater traffic than other products. Its product-page-to-purchase conversion rate is 14.68%.
 
 This performance makes The Original Mr. Fuzzy a central business driver. However, dependence on a single product may expose the business to changes in customer demand, customer satisfaction, competition, or acquisition efficiency.
 
 The Hudson River Mini Bear presents a different opportunity. Despite generating the lowest daily revenue among the analyzed products, at $365.94, it records the second-highest daily order volume, at 12.20 orders.
 
-Its lower price may contribute to its relatively high order volume. The product also has a margin of approximately 68.36% and the lowest reported product refund rate, at 1.38%.
+Its lower price may contribute to its relatively high order volume. The product also has a margin of approximately 68.36% and the lowest reported product refund rate, at 1.38% in the most recent six months.
 
 The product was introduced in February 2014, but its first recorded traffic appeared in December 2014. One possible explanation is that earlier purchases occurred through bundles without requiring customers to visit the product page. This interpretation requires validation against product-page and event-tracking history.
 
@@ -234,13 +234,13 @@ The Birthday Sugar Panda has the highest reported product-level margin, at appro
 
 The product-combination analysis shows that the highest-revenue bundle is not necessarily the most attractive combination in terms of margin and refunds.
 
-| Product Combination | Combined Price | Net Revenue | Orders | Margin | Refund Rate |
-|---|---:|---:|---:|---:|---:|
-| The Original Mr. Fuzzy + The Hudson River Mini Bear | $79.98 | $242,589.05 | 1,003 | — | — |
-| The Forever Love Bear + The Hudson River Mini Bear | $89.98 | — | 680 | 64.46% | 1.81% |
-| The Birthday Sugar Panda + The Hudson River Mini Bear | — | — | — | 68.44% | 4.71% |
+| Product Combination                                   | Combined Price | Net Revenue | Net Orders | Margin | Refund Rate |
+|-------------------------------------------------------|---------------:|------------:|-----------:|-------:|------------:|
+| The Original Mr. Fuzzy + The Hudson River Mini Bear   | $79.98         | $242,589.05 | 3,140      | 63.83% | 3.47%       |
+| The Forever Love Bear + The Hudson River Mini Bear    | $89.98         | $60,076.64  | 680        | 64.46% | 1.81%       |
+| The Birthday Sugar Panda + The Hudson River Mini Bear | $75.98         | $47,929.31  | 662        | 68.44% | 4.71%       |
 
-*Note: Dashes indicate metrics not supplied for the respective combinations. The net revenue and order count for the leading combination are reported from the supplied analysis.*
+*Note: Net revenue, net orders, and margin are calculated from orders that were not fully refunded. Refund rate is the total refund amount divided by gross revenue for each combination.*
 
 The Original Mr. Fuzzy–Hudson River Mini Bear combination generates the highest net revenue among the analyzed combinations.
 
@@ -258,10 +258,10 @@ The overall funnel analysis identifies product view to add-to-cart as the larges
 
 The historical average product-level add-to-cart conversion rate is 52.52%, compared with 52.67% in the six-month period. Two products consistently underperform against these averages: The Original Mr. Fuzzy and The Birthday Sugar Panda.
 
-| Product | Historical Add-to-Cart Conversion | Six-Month Add-to-Cart Conversion | Six-Month Refund Rate |
-|---|---:|---:|---:|
-| The Original Mr. Fuzzy | 43.04% | 42.90% | 5.38% |
-| The Birthday Sugar Panda | 46.26% | 46.38% | 6.43% |
+| Product                  | Historical Add-to-Cart Conversion | Six-Month Add-to-Cart Conversion | Six-Month Refund Rate |
+|--------------------------|----------------------------------:|---------------------------------:|----------------------:|
+| The Original Mr. Fuzzy   | 43.04%                            | 42.89%                           | 3.35%                 |
+| The Birthday Sugar Panda | 46.26%                            | 46.39%                           | 5.97%                 |
 
 Both products exhibit consistently low add-to-cart conversion alongside relatively high refund rates. This pattern warrants further investigation into product presentation, customer expectations, and potential friction in the purchasing journey. However, the relationship does not establish that refund-related trust issues directly cause low conversion.
 
@@ -269,11 +269,11 @@ Both products exhibit consistently low add-to-cart conversion alongside relative
 
 The 95% confidence intervals provide additional context for interpreting the observed conversion rates.
 
-| Product | Historical 95% Confidence Interval | Six-Month 95% Confidence Interval |
-|---|---|---|
-| The Original Mr. Fuzzy | 42.80%–43.28% | 42.47%–43.33% |
-| The Birthday Sugar Panda | Not provided | 45.39%–47.38% |
-| The Hudson River Mini Bear | 63.31%–66.96% | 63.29%–66.95% |
+| Product                    | Historical 95% Confidence Interval | Six-Month 95% Confidence Interval |
+|----------------------------|------------------------------------|-----------------------------------|
+| The Original Mr. Fuzzy     | 42.80%–43.28%                      | 42.46%–43.32%                     |
+| The Birthday Sugar Panda   | 45.55%–46.97%                      | 45.39%–47.38%                     |
+| The Hudson River Mini Bear | 63.31%–66.96%                      | 63.31%–66.96%                     |
 
 The Original Mr. Fuzzy has the narrowest reported confidence interval, reflecting its substantially larger traffic volume and more precise conversion estimate. Conversely, The Hudson River Mini Bear has the widest interval because its traffic volume is considerably lower.
 
@@ -285,24 +285,24 @@ The consistency of the results across the historical and six-month periods stren
 
 A recovery scenario was modeled by increasing the add-to-cart conversion rate of The Original Mr. Fuzzy and The Birthday Sugar Panda to 55%, while assuming that subsequent funnel conversion rates and refund amounts remain unchanged.
 
-| Metric | The Original Mr. Fuzzy | The Birthday Sugar Panda |
-|---|---:|---:|
-| Actual Completed Purchases | 7,797 | 1,557 |
-| Modeled Completed Purchases | 9,998 | 1,845 |
-| Actual Gross Revenue | $389,772.03 | $71,606.43 |
-| Modeled Gross Revenue | $499,800.02 | $84,851.55 |
-| Actual Net Revenue | $376,624.66 | $67,375.35 |
-| Modeled Net Revenue | $486,652.65 | $80,620.47 |
+| Metric                      | The Original Mr. Fuzzy | The Birthday Sugar Panda |
+|-----------------------------|-----------------------:|-------------------------:|
+| Actual Completed Purchases  | 7,797                  | 1,557                    |
+| Modeled Completed Purchases | 9,998                  | 1,845                    |
+| Actual Gross Revenue        | $389,772.03            | $71,606.43               |
+| Modeled Gross Revenue       | $499,800.02            | $84,851.55               |
+| Actual Net Revenue          | $376,624.66            | $67,375.35               |
+| Modeled Net Revenue         | $486,652.65            | $80,620.47               |
 
 The modeled primary-product net revenue increases by $110,027.99 for The Original Mr. Fuzzy and $13,245.12 for The Birthday Sugar Panda.
 
-When secondary-product contributions are included, the six-month results are:
+Including secondary-product revenue, which is held constant in both scenarios, the six-month results are:
 
-| Scenario | Six-Month Net Revenue |
-|---|---:|
-| Actual | $727,739.16 |
-| Recovery Scenario | $851,012.27 |
-| Potential Increase | $123,273.11 |
+| Scenario           | Six-Month Net Revenue |
+|--------------------|----------------------:|
+| Actual             | $727,739.16           |
+| Recovery Scenario  | $851,012.27           |
+| Potential Increase | $123,273.11           |
 
 The estimated recovery represents a 16.94% increase over actual six-month net revenue. However, this is a modeled opportunity rather than a guaranteed outcome, as actual performance depends on achieving the target conversion rates and maintaining the assumed downstream conversion and refund behavior.
 
@@ -318,18 +318,18 @@ The improvement followed the introduction of `/billing-2` in September 2012.
 
 An A/B test conducted from September 10, 2012, to January 5, 2013, compared the original `/billing` page with the new `/billing-2` page.
 
-| Metric | `/billing` | `/billing-2` |
-|---|---:|---:|
-| Visitors | 1,656 | 1,650 |
-| Orders | 750 | 1,024 |
-| Conversion Rate | 45.29% | 62.06% |
-| Net Revenue | $35,142.97 | $47,290.54 |
+| Metric          | `/billing` | `/billing-2` |
+|-----------------|-----------:|-------------:|
+| Visitors        | 1,663      | 1,657        |
+| Orders          | 750        | 1,029        |
+| Conversion Rate | 45.10%     | 62.10%       |
+| Net Revenue     | $35,142.97 | $47,540.49   |
 
-The reported z-score is approximately -9.6687, with a p-value of approximately \(4.09 \times 10^{-22}\). This provides strong statistical evidence of a difference in conversion rates between the two billing-page variants.
+The reported z-score is approximately -9.8211, with a p-value of approximately 9.13 × 10⁻²³. This provides strong statistical evidence of a difference in conversion rates between the two billing-page variants.
 
-The observed conversion-rate improvement is 16.77 percentage points. The new page also generated more orders and higher net revenue during the test period.
+The observed conversion-rate improvement is 17.00 percentage points. The new page also generated more orders and higher net revenue during the test period.
 
-After the testing period, the business continued using the new billing page. The supplied historical analysis reports a conversion rate of 63.41% under the new page, compared with 44.52% under the old page.
+After the testing period, the business continued using the new billing page. The historical analysis shows a conversion rate of 63.41% under the new page after the test, compared with 44.52% under the old page before the test.
 
 These findings support retaining `/billing-2` as the established billing experience. However, the observed revenue difference should not automatically be interpreted as the exact incremental causal revenue impact without considering the experiment's implementation and other possible differences between the groups.
 
@@ -337,26 +337,22 @@ These findings support retaining `/billing-2` as the established billing experie
 
 ### 4.6 Campaign, Landing Page, and Device Performance
 
-*Renumbered from the previous Section 4.7.*
-
 The combined analysis evaluates website performance through the hierarchy **UTM Campaign → Landing Page → Device**.
 
-| UTM Campaign | Landing Page | Device | Sessions | Orders | Conversion Rate |
-|---|---|---|---:|---:|---:|
-| Brand | `/home` | Desktop | 12K | 1,320 | 10.92% |
-| Brand | `/home` | Mobile | 6,562 | 199 | 3.03% |
-| N/A | `/home` | Desktop | 23K | 2,415 | 10.46% |
-| N/A | `/home` | Mobile | 14K | 477 | 3.31% |
-| Non-Brand | `/lander-5` | Desktop | 83K | 8,144 | 9.85% |
-| Non-Brand | `/lander-3` | Mobile | 34K | 1,187 | 3.53% |
+| UTM Campaign | Landing Page | Device  | Sessions | Orders | Conversion Rate |
+|--------------|--------------|---------|---------:|-------:|----------------:|
+| Brand        | `/home`      | Desktop | 12,086   | 1,320  | 10.92%          |
+| Brand        | `/home`      | Mobile  | 6,562    | 199    | 3.03%           |
+| N/A          | `/home`      | Desktop | 23,096   | 2,415  | 10.46%          |
+| N/A          | `/home`      | Mobile  | 14,423   | 477    | 3.31%           |
+| Non-Brand    | `/lander-5`  | Desktop | 68,166   | 6,930  | 10.17%          |
+| Non-Brand    | `/lander-3`  | Mobile  | 33,602   | 1,187  | 3.53%           |
 
-*Note: Session counts displayed in thousands are rounded dashboard values.*
-
-Desktop conversion rates range from 9.85% to 10.92%, substantially higher than mobile conversion rates of 3.03%–3.53%.
+Desktop conversion rates range from 10.17% to 10.92%, substantially higher than mobile conversion rates of 3.03%–3.53%.
 
 For Brand and N/A campaigns, both devices use `/home`, allowing a more direct comparison of device-level performance. Desktop conversion is approximately 3.60 times the mobile rate for Brand traffic and 3.16 times the mobile rate for N/A traffic.
 
-For Non-Brand traffic, desktop visitors directed to `/lander-5` convert at 9.85%, compared with 3.53% for mobile visitors directed to `/lander-3`. Since both device and landing page differ, this comparison cannot isolate their individual effects.
+For Non-Brand traffic, desktop visitors directed to `/lander-5` convert at 10.17%, compared with 3.53% for mobile visitors directed to `/lander-3`. Since both device and landing page differ, this comparison cannot isolate their individual effects.
 
 The broader landing-page analysis also reports `/lander-5` as the strongest of the three active landing pages, with a conversion rate of 10.17%, compared with 7.85% for `/home` and 3.53% for `/lander-3`.
 
@@ -384,7 +380,7 @@ The broader landing-page analysis also reports `/lander-5` as the strongest of t
 
 ### 5.3 Expand Profitable Products and Product Combinations
 
-**Finding:** The Original Mr. Fuzzy contributes approximately 45.23% of total orders, while The Hudson River Mini Bear has attractive margin and refund characteristics. The Forever Love Bear–Hudson River Mini Bear combination also has a promising margin and refund profile but relatively low order volume.
+**Finding:** The Original Mr. Fuzzy contributes approximately 62.01% of net revenue, while The Hudson River Mini Bear has attractive margin and refund characteristics. The Forever Love Bear–Hudson River Mini Bear combination also has a promising margin and refund profile but relatively low order volume.
 
 **Recommendation:** Gradually expand The Hudson River Mini Bear and test targeted promotions for promising bundles, especially the Forever Love Bear–Hudson River Mini Bear combination. Evaluate performance using order volume, net revenue, margin, and refund rate.
 
@@ -402,14 +398,9 @@ The broader landing-page analysis also reports `/lander-5` as the strongest of t
 
 ## 6. Limitations
 
-- **Data-quality validation:** The SQL contains duplicate checks, but the supplied code does not explicitly remove duplicates or document the outcome of every check. Source-level data quality should be verified before production use.
-- **Metric definitions:** Gross orders, completed purchases, net orders, gross revenue, and net revenue have different meanings. Their definitions and denominators should remain consistent across analyses.
 - **Product-level funnel interpretation:** The product funnel identifies whether the primary product was purchased. Product-level funnel purchase counts should not be assumed to represent all purchases of that product, particularly when secondary products are included in the order.
-- **Causal interpretation:** The association between refund rates and low add-to-cart conversion does not establish that refunds or customer trust issues cause the conversion gap.
 - **Revenue recovery assumptions:** The recovery scenario assumes a 55% add-to-cart conversion rate, unchanged downstream conversion, and constant refund amounts. Actual results may differ.
-- **Confidence intervals:** Products with lower traffic have less precise conversion estimates. Further monitoring is required before making substantial scaling decisions.
 - **Landing-page and device effects:** The Brand and N/A segments compare devices on the same landing page, whereas the Non-Brand segment compares desktop `/lander-5` with mobile `/lander-3`. The latter comparison cannot isolate the independent effects of device and landing page.
-- **Rounded traffic figures:** Some session counts in the campaign–landing page–device dashboard are rounded. Exact underlying counts should be used for independent recalculation and statistical testing.
 - **Attribution uncertainty:** N/A traffic may contain multiple sources or attribution scenarios. Its composition should be investigated before it is treated as a homogeneous acquisition segment.
 - **Seasonality:** The observed monthly revenue pattern suggests a year-end demand window, but additional historical data are required to establish the stability and strength of seasonality.
 - **A/B testing scope:** The billing-page test provides strong statistical evidence of a conversion difference. The exact incremental business impact depends on the validity of the experiment setup and the comparability of the test groups.
